@@ -1,8 +1,10 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 
 import '../brick_breaker.dart';
+import 'bat.dart';
 import 'play_area.dart';
 
 class Ball extends CircleComponent
@@ -39,8 +41,15 @@ class Ball extends CircleComponent
       } else if (intersectionPoints.first.x >= game.width) {
         velocity.x = -velocity.x;
       } else if (intersectionPoints.first.y >= game.height) {
-        removeFromParent();
+        // it fixes the ball popping out of existence the moment it touches the bottom of the screen
+        add(RemoveEffect( // The RemoveEffect removes the ball from the game world after letting the ball exit the viewable play area.
+          delay: 0.35,
+        ));
       }
+    } else if (other is Bat) { // these changes fix the handling of collision between bat and ball
+      velocity.y = -velocity.y;
+      velocity.x = velocity.x +
+          (position.x - other.position.x) / other.size.x * game.width * 0.3;
     } else {
       debugPrint('collision with $other');
     }
