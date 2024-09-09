@@ -47,7 +47,9 @@ class Ball extends CircleComponent
         // it fixes the ball popping out of existence the moment it touches the bottom of the screen
         add(RemoveEffect( // The RemoveEffect removes the ball from the game world after letting the ball exit the viewable play area.
           delay: 0.35,
-        ));
+          onComplete: () {
+            game.playState = PlayState.gameOver; // adds an onComplete callback to the RemoveEffect which triggers the gameOver play state
+        }));
       }
     } else if (other is Bat) { // these changes fix the handling of collision between bat and ball
       velocity.y = -velocity.y;
