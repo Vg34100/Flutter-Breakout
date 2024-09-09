@@ -8,7 +8,7 @@ import 'components/components.dart';
 import 'config.dart';
 
 // Coordinates the game's actions
-class BrickBreaker extends FlameGame {
+class BrickBreaker extends FlameGame with HasCollisionDetection {
   BrickBreaker()
       : super(
           camera: CameraComponent.withFixedResolution(
